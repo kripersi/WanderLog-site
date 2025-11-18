@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.shortcuts import redirect
 
 urlpatterns = [
-    path('', lambda request: redirect('users:users_home')),
+    path('', include('core.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls', namespace='users')),
     # path('posts/', include('posts.urls', namespace='posts')),
