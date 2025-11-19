@@ -10,15 +10,16 @@
 <body>
 <header>
     <nav>
-      <a href="/">Главная</a>
-      {% if user.is_authenticated %}
+        <a href="/">Главная</a>
+        {% if user.is_authenticated %}
         <a href="/">Профиль</a>
-        <a href="/">Выйти</a>
-      {% else %}
-        <a href="/">Войти</a>
-        <a href="/">Регистрация</a>
-      {% endif %}
-      <a href="/">Создать пост</a>
+
+        <a href="{% url 'users:logout' %}">Выйти</a>
+        {% else %}
+        <a href="{% url 'users:login' %}">Войти</a>
+        <a href="{% url 'users:register' %}">Регистрация</a>
+        {% endif %}
+        <a href="/">Создать пост</a>
     </nav>
 </header>
 <main>
