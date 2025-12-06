@@ -10,18 +10,37 @@
 <body>
 <header>
     <nav>
-        <a href="/">Главная</a>
-        {% if user.is_authenticated %}
-        <a href="/">Профиль</a>
+        <!-- Левый блок -->
+        <div class="nav-left">
+            <a href="{% url 'core:home' %}" class="icon-home">🏠</a>
 
-        <a href="{% url 'users:logout' %}">Выйти</a>
-        {% else %}
-        <a href="{% url 'users:login' %}">Войти</a>
-        <a href="{% url 'users:register' %}">Регистрация</a>
-        {% endif %}
-        <a href="/">Создать пост</a>
+            <form method="get" action="{% url 'core:home' %}" class="search-form">
+                <input type="text" name="q" placeholder="Поиск...">
+            </form>
+        </div>
+
+        <!-- Правый блок -->
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+            <a href="/" class="icon-plus">➕</a>
+
+            <div class="dropdown">
+                <button class="dropdown-btn">Аккаунт ▾</button>
+
+                <div class="dropdown-content">
+                    <a href="{% url 'users:profile' %}">Профиль</a>
+                    <a href="{% url 'users:logout' %}">Выйти</a>
+                </div>
+            </div>
+            {% else %}
+            <a href="{% url 'users:login' %}">Войти</a>
+            <a href="{% url 'users:register' %}">Создать</a>
+            {% endif %}
+        </div>
+        </div>
     </nav>
 </header>
+
 <main>
     {% block content %}{% endblock %}
 </main>

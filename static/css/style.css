@@ -1,16 +1,17 @@
+/* Общие стили */
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: #f6f7f9;
-    color: #333;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #F4EBDB;
+    color: #2C4A52;
 }
 
 /* Навигация */
 header {
-    background: white;
-    border-bottom: 1px solid #ddd;
+    background-color: #2C4A52;
     padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 nav {
@@ -19,24 +20,253 @@ nav {
     margin: auto;
     display: flex;
     gap: 20px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 nav a {
     text-decoration: none;
-    font-weight: bold;
-    color: #333;
-    padding: 6px 10px;
+    font-weight: 600;
+    color: #F4EBDB;
+    padding: 8px 12px;
     border-radius: 6px;
-    transition: 0.2s;
+    transition: background 0.3s ease;
 }
 
 nav a:hover {
-    background: #e5e5e5;
+    background-color: #537072;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 /* Контент */
 main {
     width: 90%;
-    max-width: 1100px;
-    margin: 30px auto;
+    max-width: 900px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    color: #2C4A52;
 }
+
+/* Заголовки */
+h1, h2 {
+    color: #537072;
+    margin-bottom: 20px;
+}
+
+/* Выпадающее меню */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 6px 10px;
+}
+
+.dropdown-btn:hover {
+    background: #e5e5e5;
+    border-radius: 6px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: white;
+    min-width: 140px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 5px 0;
+    z-index: 10;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+}
+
+.dropdown-content a:hover {
+    background: #f2f2f2;
+}
+
+/* Показываем меню при наведении */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Формы */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Поля ввода */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    padding: 10px;
+    border: 1px solid #8E9B97;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 1em;
+}
+
+button {
+    background-color: #2C4A52;
+    color: #F4EBDB;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #537072;
+}
+
+
+/* Контейнер формы */
+.form-container {
+    background-color: #F4EBDB;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #8E9B97;
+}
+
+/* Ссылки в форме */
+.form-footer {
+    margin-top: 10px;
+    font-size: 0.95em;
+    color: #8E9B97;
+}
+
+.form-footer a {
+    color: #2C4A52;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+
+/* Профиль */
+.profile-container {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    color: #2C4A52;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-header {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.avatar img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #8E9B97;
+}
+
+.info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info label {
+    font-weight: 600;
+}
+
+/* Блок аватара */
+.avatar-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Фото */
+.avatar img {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #8E9B97;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* Скрытый input */
+#id_avatar {
+    display: none;
+}
+
+/* Красивая кнопка */
+.avatar-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: #2C4A52;
+    color: #F4EBDB;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 0.95em;
+    font-weight: 600;
+}
+
+.avatar-btn:hover {
+    background-color: #537072;
+}
+
+/* Никнейм */
+.username {
+    font-size: 1.2em;
+    font-weight: 700;
+    background: #F4EBDB;
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    border: 1px solid #8E9B97;
+    color: #2C4A52;
+}
+
+/* Кнопка сохранить */
+.save-btn {
+    width: 200px;
+    align-self: center;
+}
+
+.hidden-input {
+    display: none;
+}
+
+

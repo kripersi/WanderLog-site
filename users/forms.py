@@ -13,6 +13,17 @@ class UserRegisterForm(UserCreationForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    avatar = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'hidden-input'})
+    )
+
+    bio = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 5}),
+        max_length=5000
+    )
+
     class Meta:
         model = Profile
         fields = ['avatar', 'bio']

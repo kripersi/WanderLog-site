@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, ProfileUpdateForm
 from django.contrib import messages
+
+from .forms import UserRegisterForm, ProfileUpdateForm
 
 
 def users_home(request):
@@ -25,11 +26,19 @@ def register(request):
 
 @login_required
 def profile(request):
+    profile = request.user.profile
+
     if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('users:profile')
     else:
-        form = ProfileUpdateForm(instance=request.user.profile)
+        form = ProfileUpdateForm(instance=profile)
+
     return render(request, 'users/profile.html', {'form': form})
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('core:home')
