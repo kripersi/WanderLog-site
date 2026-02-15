@@ -3,48 +3,46 @@
 
 {% block content %}
 
-<h1>WanderLog</h1>
-<p>Лента путешествий</p>
-
+<h1 class="page-title">WanderLog</h1>
 <hr>
 
-<div class="posts">
+<div class="feed">
 
     {% for post in posts %}
-        <div class="post-card" style="margin-bottom: 40px;">
+        <div class="feed-item">
 
-            <h2>
-                <a href="{% url 'posts:post_detail' post.id %}">
-                    {{ post.title }}
-                </a>
-            </h2>
+            <div class="feed-image">
+                {% if post.images.first %}
+                    <img src="{{ post.images.first.image.url }}">
+                {% else %}
+                    <div class="no-image">Фото</div>
+                {% endif %}
+            </div>
 
-            <p>
-                <strong>Автор:</strong> {{ post.author.username }} |
-                <strong>Страна:</strong> {{ post.country }} |
-                <strong>Место:</strong> {{ post.place }}
-            </p>
+            <div class="feed-content">
 
-            <p>
-                {{ post.created_at|date:"d.m.Y H:i" }}
-            </p>
+                <div class="feed-header">
+                    <h2>
+                        <a href="{% url 'posts:post_detail' post.pk %}">
+                            {{ post.title }}
+                        </a>
+                    </h2>
 
-            {% if post.images.first %}
-                <img src="{{ post.images.first.image.url }}"
-                     style="max-width: 400px;">
-            {% endif %}
+                    <div class="meta">
+                        <span>{{ post.country }} — {{ post.place }}</span>
+                        <span>Автор: {{ post.author.username }}</span>
+                    </div>
+                </div>
 
-            <p>
-                {{ post.description|truncatechars:200 }}
-            </p>
+                <p class="feed-text">
+                    {{ post.description|truncatechars:120 }}
+                </p>
 
-            <a href="{% url 'posts:post_detail' post.id %}">
-                Читать полностью →
-            </a>
+            </div>
 
         </div>
 
-        <hr>
+        <hr class="divider">
 
     {% empty %}
         <p>Постов пока нет.</p>
