@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>{{ post.title }}</h1>
+
+<p><strong>Автор:</strong> {{ post.author.username }}</p>
+<p><strong>Страна:</strong> {{ post.country }}</p>
+<p><strong>Место:</strong> {{ post.place }}</p>
+<p><strong>Дата создания:</strong> {{ post.created_at|date:"d.m.Y H:i" }}</p>
+
+<div class="post-images">
+    {% for img in post.images.all %}
+        <img src="{{ img.image.url }}" class="post-img" style="max-width:300px;">
+    {% empty %}
+        <p>Нет изображений</p>
+    {% endfor %}
+</div>
+
+<hr>
+
+<p class="description">{{ post.description }}</p>
+
+{% endblock %}

@@ -2,44 +2,42 @@
 
 {% block content %}
 
-<div class="profile-container">
 
-    <h2>Ваш профиль</h2>
+<h2>Ваш профиль</h2>
 
-    <form method="post" enctype="multipart/form-data" class="profile-form">
-        {% csrf_token %}
+<form method="post" enctype="multipart/form-data" class="profile-form">
+    {% csrf_token %}
 
-        <div class="profile-header">
+    <div class="profile-header">
 
-            <!-- Аватар -->
-            <div class="avatar-block">
+        <!-- Аватар -->
+        <div class="avatar-block">
 
-                <div class="avatar">
-                    {% if user.profile.avatar %}
-                        <img src="{{ user.profile.avatar.url }}" alt="Avatar">
-                    {% else %}
-                        <img src="/static/images/default-avatar.jpg" alt="No avatar">
-                    {% endif %}
-                </div>
-
-                <label for="id_avatar" class="avatar-btn">Изменить фото</label>
-                {{ form.avatar }}
+            <div class="avatar">
+                {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="Avatar">
+                {% else %}
+                <img src="/static/images/default-avatar.jpg" alt="No avatar">
+                {% endif %}
             </div>
 
-            <!-- Основная информация -->
-            <div class="info">
-                <label>Ник:</label>
-                <p class="username">{{ user.username }}</p>
-
-                <label>Биография:</label>
-                {{ form.bio }}
-            </div>
-
+            <label for="id_avatar" class="avatar-btn">Изменить фото</label>
+            {{ form.avatar }}
         </div>
 
-        <button type="submit" class="save-btn">Сохранить</button>
-    </form>
+        <!-- Основная информация -->
+        <div class="info">
+            <label>Ник:</label>
+            <p class="username">{{ user.username }}</p>
 
-</div>
+            <label>Биография:</label>
+            {{ form.bio }}
+        </div>
+
+    </div>
+
+    <button type="submit" class="save-btn">Сохранить</button>
+</form>
+
 
 {% endblock %}

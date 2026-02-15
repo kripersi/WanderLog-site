@@ -1,6 +1,55 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Добро пожаловать в WanderLog!</h1>
-<p>Твой дневник путешествий начинается здесь.</p>
+
+<h1>WanderLog</h1>
+<p>Лента путешествий</p>
+
+<hr>
+
+<div class="posts">
+
+    {% for post in posts %}
+        <div class="post-card" style="margin-bottom: 40px;">
+
+            <h2>
+                <a href="{% url 'posts:post_detail' post.id %}">
+                    {{ post.title }}
+                </a>
+            </h2>
+
+            <p>
+                <strong>Автор:</strong> {{ post.author.username }} |
+                <strong>Страна:</strong> {{ post.country }} |
+                <strong>Место:</strong> {{ post.place }}
+            </p>
+
+            <p>
+                {{ post.created_at|date:"d.m.Y H:i" }}
+            </p>
+
+            {% if post.images.first %}
+                <img src="{{ post.images.first.image.url }}"
+                     style="max-width: 400px;">
+            {% endif %}
+
+            <p>
+                {{ post.description|truncatechars:200 }}
+            </p>
+
+            <a href="{% url 'posts:post_detail' post.id %}">
+                Читать полностью →
+            </a>
+
+        </div>
+
+        <hr>
+
+    {% empty %}
+        <p>Постов пока нет.</p>
+    {% endfor %}
+
+</div>
+
 {% endblock %}

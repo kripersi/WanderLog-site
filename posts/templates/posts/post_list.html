@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Все посты</h1>
+
+<div class="posts">
+    {% for post in posts %}
+        <div class="post-card">
+            <a href="{% url 'posts:post_detail' post.id %}">
+
+                {% if post.images.first %}
+                    <img src="{{ post.images.first.image.url }}"
+                         class="post-thumb"
+                         style="max-width:200px;">
+                {% else %}
+                    <p>Нет фото</p>
+                {% endif %}
+
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.country }}</p>
+                <p>{{ post.place }}</p>
+            </a>
+        </div>
+    {% empty %}
+        <p>Постов пока нет.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

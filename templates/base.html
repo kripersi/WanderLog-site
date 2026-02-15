@@ -22,7 +22,7 @@
         <!-- Правый блок -->
         <div class="nav-right">
             {% if user.is_authenticated %}
-            <a href="/" class="icon-plus">➕</a>
+            <a href="{% url 'posts:create_post' %}" class="icon-plus">➕</a>
 
             <div class="dropdown">
                 <button class="dropdown-btn">Аккаунт ▾</button>

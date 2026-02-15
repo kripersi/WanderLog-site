@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from posts.models import Post
 
 
 def home(request):
-    return render(request, 'core/home.html')
+    posts = Post.objects.all().order_by("-created_at")
+    return render(request, 'core/home.html',  {"posts": posts})

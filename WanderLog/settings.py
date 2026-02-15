@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'posts',
-    'core'
+    'core',
+    'django_countries'
 ]
 
 MIDDLEWARE = [

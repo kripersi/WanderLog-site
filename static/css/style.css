@@ -168,14 +168,6 @@ button:hover {
 
 
 /* Профиль */
-.profile-container {
-    background-color: #ffffff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    color: #2C4A52;
-}
-
 .profile-form {
     display: flex;
     flex-direction: column;
@@ -269,4 +261,38 @@ button:hover {
     display: none;
 }
 
+/* Создание постов */
+/* Ровное выравнивание формы "Создать пост" */
+.post-form p {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+}
+
+/* Фиксированная ширина всех label */
+.post-form p label {
+    width: 160px;
+    font-weight: 600;
+}
+
+/* Чтобы textarea растягивалась */
+.post-form textarea {
+    width: 80%;
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Select, inputs тоже растянуты */
+.post-form input[type="text"],
+.post-form input[type="number"],
+.post-form input[type="file"],
+.post-form select {
+    flex: 1;
+}
+
+/* Кнопка под формой */
+.post-form button {
+    margin-top: 20px;
+}
 

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Создать пост</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <div>
+        <label>Заголовок</label>
+        {{ form.title }}
+        {{ form.title.errors }}
+    </div>
+
+    <div>
+        <label>Страна</label>
+        {{ form.country }}
+        {{ form.country.errors }}
+    </div>
+
+    <div>
+        <label>Место (город, координаты и т.д.)</label>
+        {{ form.place }}
+        {{ form.place.errors }}
+    </div>
+
+    <div>
+        <label>Описание</label>
+        {{ form.description }}
+        {{ form.description.errors }}
+    </div>
+
+    <div>
+        <label>Фото (1–5)</label>
+        <input type="file" name="images" multiple required>
+    </div>
+
+    <button type="submit">Опубликовать</button>
+</form>
+{% endblock %}
