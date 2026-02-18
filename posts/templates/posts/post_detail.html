@@ -2,23 +2,50 @@
 {% load static %}
 
 {% block content %}
-<h1>{{ post.title }}</h1>
 
-<p><strong>Автор:</strong> {{ post.author.username }}</p>
-<p><strong>Страна:</strong> {{ post.country }}</p>
-<p><strong>Место:</strong> {{ post.place }}</p>
-<p><strong>Дата создания:</strong> {{ post.created_at|date:"d.m.Y H:i" }}</p>
+<div class="post-detail">
 
-<div class="post-images">
-    {% for img in post.images.all %}
-        <img src="{{ img.image.url }}" class="post-img" style="max-width:300px;">
-    {% empty %}
-        <p>Нет изображений</p>
-    {% endfor %}
+    <!-- Верхняя панель -->
+    <div class="post-top">
+        <h1 class="post-title">{{ post.title }}</h1>
+
+        <div class="post-author">
+            {% if post.author.profile.avatar %}
+            <img src="{{ post.author.profile.avatar.url }}" class="author-avatar">
+            {% endif %}
+            <span>{{ post.author.username }}</span>
+        </div>
+    </div>
+
+    <!-- Галерея -->
+    <div class="gallery">
+        <div class="gallery-wrapper">
+
+            <button class="arrow left" onclick="prevImage()">❮</button>
+
+            <div class="gallery-slide">
+                {% for img in post.images.all %}
+                <img src="{{ img.image.url }}" class="gallery-image">
+                {% endfor %}
+            </div>
+
+            <button class="arrow right" onclick="nextImage()">❯</button>
+
+        </div>
+    </div>
+
+    <div class="post-text">
+        {{ post.description }}
+    </div>
+
+</div>
+<div id="imageModal" class="modal">
+    <span class="modal-close" onclick="closeModal()">✕</span>
+    <img class="modal-image" id="modalImage">
 </div>
 
-<hr>
-
-<p class="description">{{ post.description }}</p>
+{% block scripts %}
+<script src="{% static 'posts/js/post_detail.js' %}"></script>
+{% endblock %}
 
 {% endblock %}
