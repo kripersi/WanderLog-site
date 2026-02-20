@@ -25,6 +25,19 @@ class Profile(models.Model):
     def __str__(self):
         return f'Профиль {self.user.username}'
 
+    def save(self, *args, **kwargs):
+        try:
+            old_instance = Profile.objects.get(pk=self.pk)
+            old_avatar = old_instance.avatar
+        except Profile.DoesNotExist:
+            old_avatar = None
+
+        super().save(*args, **kwargs)
+
+        if old_avatar and old_avatar != self.avatar:
+            if os.path.isfile(old_avatar.path):
+                os.remove(old_avatar.path)
+
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):

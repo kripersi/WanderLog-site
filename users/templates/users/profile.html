@@ -1,43 +1,83 @@
 {% extends 'base.html' %}
-
 {% block content %}
+{% load static %}
 
+<h2>Профиль пользователя</h2>
 
-<h2>Ваш профиль</h2>
-
+{% if is_owner %}
 <form method="post" enctype="multipart/form-data" class="profile-form">
     {% csrf_token %}
+{% endif %}
 
-    <div class="profile-header">
+<div class="profile-header">
 
-        <!-- Аватар -->
-        <div class="avatar-block">
+    <div class="avatar-block">
+        <div class="avatar">
+            {% if profile_user.profile.avatar %}
+                <img src="{{ profile_user.profile.avatar.url }}">
+            {% else %}
+                <img src="/static/images/default-avatar.jpg">
+            {% endif %}
+        </div>
 
-            <div class="avatar">
-                {% if user.profile.avatar %}
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar">
+        {% if is_owner %}
+            <label for="id_avatar" class="avatar-btn">Изменить фото</label>
+            {{ form.avatar }}
+        {% endif %}
+    </div>
+
+    <div class="info">
+        <label>Ник:</label>
+        <p class="username">{{ profile_user.username }}</p>
+
+        <label>Биография:</label>
+
+        {% if is_owner %}
+            {{ form.bio }}
+        {% else %}
+            <p>{{ profile_user.profile.bio }}</p>
+        {% endif %}
+    </div>
+</div>
+
+{% if is_owner %}
+    <button type="submit" class="save-btn">Сохранить</button>
+</form>
+{% endif %}
+
+<hr>
+
+<h3>Посты пользователя</h3>
+
+<div class="feed">
+    {% for post in posts %}
+        <div class="feed-item">
+            <div class="feed-image">
+                {% if post.images.first %}
+                    <img src="{{ post.images.first.image.url }}">
                 {% else %}
-                <img src="/static/images/default-avatar.jpg" alt="No avatar">
+                    <div class="no-image">Нет фото</div>
                 {% endif %}
             </div>
 
-            <label for="id_avatar" class="avatar-btn">Изменить фото</label>
-            {{ form.avatar }}
+            <div class="feed-content">
+                <h2>
+                    <a href="{% url 'posts:post_detail' post.id %}">
+                        {{ post.title }}
+                    </a>
+                </h2>
+                <p class="feed-text">
+                    {{ post.description|truncatewords:20 }}
+                </p>
+            </div>
         </div>
-
-        <!-- Основная информация -->
-        <div class="info">
-            <label>Ник:</label>
-            <p class="username">{{ user.username }}</p>
-
-            <label>Биография:</label>
-            {{ form.bio }}
-        </div>
-
-    </div>
-
-    <button type="submit" class="save-btn">Сохранить</button>
-</form>
-
+        <hr class="divider">
+    {% empty %}
+        <p>У пользователя пока нет постов.</p>
+    {% endfor %}
+</div>
+{% block scripts %}
+<script src="{% static 'posts/js/photo_preview.js' %}"></script>
+{% endblock %}
 
 {% endblock %}

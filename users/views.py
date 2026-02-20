@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from posts.models import Post
 
 from .forms import UserRegisterForm, ProfileUpdateForm
 
@@ -25,20 +28,39 @@ def register(request):
 
 
 @login_required
-def profile(request):
-    profile = request.user.profile
-
-    if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('users:profile')
+def profile(request, username=None):
+    # Если username передан то смотрим чужой профиль
+    if username:
+        user_obj = get_object_or_404(User, username=username)
     else:
-        form = ProfileUpdateForm(instance=profile)
+        user_obj = request.user
 
-    return render(request, 'users/profile.html', {'form': form})
+    posts = Post.objects.filter(author=user_obj).order_by('-created_at')
+
+    is_owner = request.user == user_obj
+
+    form = None
+
+    if is_owner:
+        profile_instance = user_obj.profile
+
+        if request.method == 'POST':
+            form = ProfileUpdateForm(request.POST, request.FILES, instance=profile_instance)
+            if form.is_valid():
+                form.save()
+                return redirect('users:profile')
+        else:
+            form = ProfileUpdateForm(instance=profile_instance)
+
+    return render(request, 'users/profile.html', {
+        'profile_user': user_obj,
+        'posts': posts,
+        'form': form,
+        'is_owner': is_owner
+    })
 
 
 def logout_user(request):
     logout(request)
     return redirect('core:home')
+

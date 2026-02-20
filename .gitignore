@@ -95,3 +95,4 @@ build/
 # Django migrations
 */migrations/*
 !*/migrations/__init__.py
+media/avatars
