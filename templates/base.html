@@ -2,48 +2,121 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>WanderLog</title>
+    <title>wanderlog</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-<header>
-    <nav>
-        <!-- Левый блок -->
-        <div class="nav-left">
-            <a href="{% url 'core:home' %}" class="icon-home">🏠</a>
-
-            <form method="get" action="{% url 'core:home' %}" class="search-form">
-                <input type="text" name="q" placeholder="Поиск...">
-            </form>
+<body class="{% block body_class %}{% endblock %}">
+{% block shell %}
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-icon"></span>
+            <span class="brand-text">wanderlog</span>
         </div>
 
-        <!-- Правый блок -->
-        <div class="nav-right">
+        <nav class="side-nav">
+            <a href="{% url 'core:home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 11.5L12 4l9 7.5v8.5a1 1 0 0 1-1 1h-5.5v-6h-5v6H4a1 1 0 0 1-1-1z"></path>
+                    </svg>
+                </span>
+                Главная
+            </a>
+            <a href="{% url 'core:home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
+                    </svg>
+                </span>
+                Исследовать
+            </a>
             {% if user.is_authenticated %}
-            <a href="{% url 'posts:create_post' %}" class="icon-plus">➕</a>
+            <a href="{% url 'posts:create_post' %}" class="nav-link {% if request.path == '/posts/create/' %}active{% endif %}">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </span>
+                Создать
+            </a>
+            <a href="{% url 'users:profile' %}" class="nav-link {% if request.path == '/users/profile/' %}active{% endif %}">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 20c1.8-3.2 5-5 8-5s6.2 1.8 8 5"></path>
+                    </svg>
+                </span>
+                Профиль
+            </a>
+            <a href="{% url 'users:logout' %}" class="nav-link">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 17l5-5-5-5"></path>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                        <path d="M21 4v16"></path>
+                    </svg>
+                </span>
+                Выйти
+            </a>
+            {% else %}
+            <a href="{% url 'users:login' %}" class="nav-link {% if request.path == '/users/login/' %}active{% endif %}">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 17l5-5-5-5"></path>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                        <path d="M21 4v16"></path>
+                    </svg>
+                </span>
+                Войти
+            </a>
+            <a href="{% url 'users:register' %}" class="nav-link {% if request.path == '/users/register/' %}active{% endif %}">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 20c1.8-3.2 5-5 8-5s6.2 1.8 8 5"></path>
+                        <line x1="19" y1="5" x2="19" y2="9"></line>
+                        <line x1="17" y1="7" x2="21" y2="7"></line>
+                    </svg>
+                </span>
+                Регистрация
+            </a>
+            {% endif %}
+        </nav>
+    </aside>
 
-            <div class="dropdown">
-                <button class="dropdown-btn">Аккаунт ▾</button>
-
-                <div class="dropdown-content">
-                    <a href="{% url 'users:profile' %}">Профиль</a>
-                    <a href="{% url 'users:logout' %}">Выйти</a>
+    <div class="main">
+        {% block topbar %}
+        <header class="topbar">
+            <div class="topbar-title">
+                <h1 class="page-title">{% block page_title %}Исследовать{% endblock %}</h1>
+            </div>
+            <div class="topbar-search">
+                <form method="get" action="{% url 'core:home' %}" class="search-form">
+                    <input type="text" name="q" placeholder="Поиск мест, стран..." value="{{ query|default:'' }}">
+                </form>
+                <div class="filter-select">
+                    <select>
+                        <option>Все страны</option>
+                    </select>
                 </div>
             </div>
-            {% else %}
-            <a href="{% url 'users:login' %}">Войти</a>
-            <a href="{% url 'users:register' %}">Создать</a>
-            {% endif %}
-        </div>
-        </div>
-    </nav>
-</header>
+        </header>
+        {% endblock %}
 
-<main>
-    {% block content %}{% endblock %}
-    {% block scripts %}{% endblock %}
-</main>
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
 </body>
 </html>

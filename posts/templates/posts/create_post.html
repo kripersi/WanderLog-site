@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1>Создать пост</h1>
+{% block page_title %}Создать пост{% endblock %}
 
-<form method="post" enctype="multipart/form-data">
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="profile-form post-form">
     {% csrf_token %}
 
     {{ form.non_field_errors }}
@@ -34,7 +34,9 @@
 
     <div>
         <label>Фото (1–5)</label>
-        <input type="file" name="images" multiple required>
+        <label for="id_images" class="file-btn">Загрузить фото</label>
+        <input type="file" id="id_images" name="images" multiple required>
+        <div class="file-hint">Можно выбрать до 5 файлов</div>
     </div>
 
     <button type="submit">Опубликовать</button>

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}Мои лайки{% endblock %}
+
+{% block content %}
+
+<div class="feed">
+    {% for post in liked_posts %}
+    <div class="feed-item">
+        <div class="feed-image">
+            {% if post.images.first %}
+            <img src="{{ post.images.first.image.url }}">
+            {% else %}
+            <div class="no-image">Нет фото</div>
+            {% endif %}
+        </div>
+
+        <div class="feed-content">
+            <h2>
+                <a href="{% url 'posts:post_detail' post.id %}">
+                    {{ post.title }}
+                </a>
+            </h2>
+            <p class="feed-text">
+                {{ post.description|truncatewords:20 }}
+            </p>
+        </div>
+    </div>
+    <hr class="divider">
+    {% empty %}
+    <p>У вас пока нет лайкнутых постов.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

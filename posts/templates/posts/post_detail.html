@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block page_title %}{{ post.title }}{% endblock %}
+
 {% block content %}
 
 <div class="post-detail">
@@ -23,7 +25,11 @@
     <div class="gallery">
         <div class="gallery-wrapper">
 
-            <button class="arrow left" onclick="prevImage()">❮</button>
+            <button class="arrow left" onclick="prevImage()" aria-label="Предыдущее фото">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
 
             <div class="gallery-slide">
                 {% for img in post.images.all %}
@@ -31,7 +37,11 @@
                 {% endfor %}
             </div>
 
-            <button class="arrow right" onclick="nextImage()">❯</button>
+            <button class="arrow right" onclick="nextImage()" aria-label="Следующее фото">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
 
         </div>
     </div>

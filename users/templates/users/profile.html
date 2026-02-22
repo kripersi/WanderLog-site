@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
 
-<h2>Профиль пользователя</h2>
+{% block page_title %}Профиль{% endblock %}
+
+{% block content %}
 
 {% if is_owner %}
 <form method="post" enctype="multipart/form-data" class="profile-form" id="profileForm">
     {% csrf_token %}
-    {% endif %}
+{% endif %}
 
     <div class="profile-header">
 
@@ -27,37 +28,31 @@
         </div>
 
         <div class="info">
-            <label>Ник:</label>
-            <p class="username">{{ profile_user.username }}</p>
+            <div class="info-row">
+                <label>Ник:</label>
+                <p class="username">{{ profile_user.username }}</p>
+            </div>
 
-            <label>Биография:</label>
-
-            {% if is_owner %}
-            {{ form.bio }}
-            {% else %}
-            <p>{{ profile_user.profile.bio }}</p>
-            {% endif %}
+            <div class="info-row">
+                <label>Биография:</label>
+                {% if is_owner %}
+                {{ form.bio }}
+                {% else %}
+                <p>{{ profile_user.profile.bio }}</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 
     {% if is_owner %}
     <div class="profile-actions">
-        <button type="submit"
-                class="profile-btn"
-                id="saveProfileBtn"
-                disabled>
-            Сохранить
-        </button>
-
-        <a href="{% url 'users:likes' %}"
-           class="profile-btn">
-            Лайки
-        </a>
+        <button type="submit" class="save-btn" id="saveProfileBtn" disabled>Сохранить</button>
+        <a href="{% url 'users:likes' %}" class="likes-link">Лайки</a>
     </div>
 </form>
 {% endif %}
 
-<hr>
+<hr class="divider">
 
 <h3>Посты пользователя</h3>
 
@@ -83,8 +78,7 @@
             </p>
         </div>
         {% if request.user == post.author %}
-        <form method="post" action="{% url 'posts:delete_post' post.pk %}" onsubmit="return confirmDelete();"
-              style="margin-top:10px;">
+        <form method="post" action="{% url 'posts:delete_post' post.pk %}" onsubmit="return confirmDelete();" style="margin-top:10px;">
             {% csrf_token %}
             <button type="submit" class="delete-btn">Удалить</button>
         </form>
@@ -100,6 +94,8 @@
         return confirm("Вы уверены, что хотите удалить этот пост?");
     }
 </script>
+{% endblock %}
+
 {% block scripts %}
 <script src="{% static 'posts/js/photo_preview.js' %}"></script>
 <script>
@@ -151,6 +147,4 @@
         updateState();
     })();
 </script>
-{% endblock %}
-
 {% endblock %}
