@@ -39,13 +39,22 @@
     <div class="post-text">
         {{ post.description }}
     </div>
-
+    {% if request.user == post.author %}
+    <form method="post" action="{% url 'posts:delete_post' post.pk %}" onsubmit="return confirmDelete();">
+        {% csrf_token %}
+        <button type="submit" class="delete-btn">Удалить пост</button>
+    </form>
+    {% endif %}
 </div>
 <div id="imageModal" class="modal">
     <span class="modal-close" onclick="closeModal()">✕</span>
     <img class="modal-image" id="modalImage">
 </div>
-
+<script>
+    function confirmDelete() {
+        return confirm("Вы уверены, что хотите удалить этот пост?");
+    }
+</script>
 {% block scripts %}
 <script src="{% static 'posts/js/post_detail.js' %}"></script>
 {% endblock %}

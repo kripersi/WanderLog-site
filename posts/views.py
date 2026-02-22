@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
 from .models import PostImage, Post
-from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 
 @login_required
@@ -34,5 +34,20 @@ def create_post(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, "posts/post_detail.html", {"post": post})
+
+
+@login_required
+def delete_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+
+    if post.author != request.user:
+        return redirect("core:home")
+
+    if request.method == "POST":
+        post.delete()
+        messages.success(request, "Пост удалён")
+        return redirect("users:profile")
+
+    return redirect("posts:post_detail", pk=pk)
 
 

@@ -7,40 +7,40 @@
 {% if is_owner %}
 <form method="post" enctype="multipart/form-data" class="profile-form">
     {% csrf_token %}
-{% endif %}
+    {% endif %}
 
-<div class="profile-header">
+    <div class="profile-header">
 
-    <div class="avatar-block">
-        <div class="avatar">
-            {% if profile_user.profile.avatar %}
+        <div class="avatar-block">
+            <div class="avatar">
+                {% if profile_user.profile.avatar %}
                 <img src="{{ profile_user.profile.avatar.url }}">
-            {% else %}
+                {% else %}
                 <img src="/static/images/default-avatar.jpg">
+                {% endif %}
+            </div>
+
+            {% if is_owner %}
+            <label for="id_avatar" class="avatar-btn">Изменить фото</label>
+            {{ form.avatar }}
             {% endif %}
         </div>
 
-        {% if is_owner %}
-            <label for="id_avatar" class="avatar-btn">Изменить фото</label>
-            {{ form.avatar }}
-        {% endif %}
-    </div>
+        <div class="info">
+            <label>Ник:</label>
+            <p class="username">{{ profile_user.username }}</p>
 
-    <div class="info">
-        <label>Ник:</label>
-        <p class="username">{{ profile_user.username }}</p>
+            <label>Биография:</label>
 
-        <label>Биография:</label>
-
-        {% if is_owner %}
+            {% if is_owner %}
             {{ form.bio }}
-        {% else %}
+            {% else %}
             <p>{{ profile_user.profile.bio }}</p>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
-</div>
 
-{% if is_owner %}
+    {% if is_owner %}
     <button type="submit" class="save-btn">Сохранить</button>
 </form>
 {% endif %}
@@ -51,31 +51,43 @@
 
 <div class="feed">
     {% for post in posts %}
-        <div class="feed-item">
-            <div class="feed-image">
-                {% if post.images.first %}
-                    <img src="{{ post.images.first.image.url }}">
-                {% else %}
-                    <div class="no-image">Нет фото</div>
-                {% endif %}
-            </div>
-
-            <div class="feed-content">
-                <h2>
-                    <a href="{% url 'posts:post_detail' post.id %}">
-                        {{ post.title }}
-                    </a>
-                </h2>
-                <p class="feed-text">
-                    {{ post.description|truncatewords:20 }}
-                </p>
-            </div>
+    <div class="feed-item">
+        <div class="feed-image">
+            {% if post.images.first %}
+            <img src="{{ post.images.first.image.url }}">
+            {% else %}
+            <div class="no-image">Нет фото</div>
+            {% endif %}
         </div>
-        <hr class="divider">
+
+        <div class="feed-content">
+            <h2>
+                <a href="{% url 'posts:post_detail' post.id %}">
+                    {{ post.title }}
+                </a>
+            </h2>
+            <p class="feed-text">
+                {{ post.description|truncatewords:20 }}
+            </p>
+        </div>
+        {% if request.user == post.author %}
+        <form method="post" action="{% url 'posts:delete_post' post.pk %}" onsubmit="return confirmDelete();"
+              style="margin-top:10px;">
+            {% csrf_token %}
+            <button type="submit" class="delete-btn">Удалить</button>
+        </form>
+        {% endif %}
+    </div>
+    <hr class="divider">
     {% empty %}
-        <p>У пользователя пока нет постов.</p>
+    <p>У пользователя пока нет постов.</p>
     {% endfor %}
 </div>
+<script>
+    function confirmDelete() {
+        return confirm("Вы уверены, что хотите удалить этот пост?");
+    }
+</script>
 {% block scripts %}
 <script src="{% static 'posts/js/photo_preview.js' %}"></script>
 {% endblock %}
