@@ -64,3 +64,14 @@ def logout_user(request):
     logout(request)
     return redirect('core:home')
 
+
+@login_required
+def likes(request):
+    liked_posts = (
+        Post.objects.filter(likes__user=request.user)
+        .select_related("author")
+        .prefetch_related("images")
+        .order_by("-likes__created_at")
+    )
+    return render(request, "users/likes.html", {"liked_posts": liked_posts})
+

@@ -251,10 +251,11 @@ button:hover {
     color: #2C4A52;
 }
 
-/* Кнопка сохранить */
-.save-btn {
-    width: 200px;
-    align-self: center;
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }
 
 .hidden-input {
@@ -486,6 +487,60 @@ button:hover {
     line-height: 1.6;
 }
 
+/* Лайки */
+.like-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.like-btn {
+    background-color: transparent;
+    color: #8E9B97;
+    font-size: 28px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #8E9B97;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.like-btn:hover {
+    background-color: #e9e1d2;
+}
+
+.like-btn.liked {
+    color: #c0392b;
+    border-color: #c0392b;
+}
+
+.like-btn[aria-pressed="true"] {
+    color: #c0392b;
+    border-color: #c0392b;
+}
+
+.like-count {
+    font-weight: 600;
+    color: #537072;
+}
+
+
+/* Ссылка автора в посте */
+.post-author a {
+    color: #2e7d32;
+    text-decoration: none;
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+}
+
+.post-author a:hover {
+    color: #808080;
+    transform: scale(1.08);
+}
+
 /* ===== Модальное окно ===== */
 
 .modal {
@@ -544,4 +599,37 @@ button:hover {
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+}
+
+/* Универсальная кнопка профиля */
+.profile-btn {
+    width: 200px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #2C4A52;
+    color: #F4EBDB;
+
+    border: none;
+    border-radius: 6px;
+
+    font-weight: 600;
+    text-decoration: none;
+
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Hover */
+.profile-btn:hover {
+    background-color: #537072;
+}
+
+/* Disabled */
+.profile-btn:disabled {
+    background-color: #e9e1d2;
+    color: #8E9B97;
+    cursor: not-allowed;
 }

@@ -39,6 +39,23 @@
     <div class="post-text">
         {{ post.description }}
     </div>
+    {% if user.is_authenticated %}
+    <div class="like-row">
+        <form method="post" action="{% url 'posts:toggle_like' post.pk %}">
+            {% csrf_token %}
+            {% if is_liked %}
+            <button type="submit" class="like-btn liked" aria-label="Убрать лайк" aria-pressed="true">♥</button>
+            {% else %}
+            <button type="submit" class="like-btn" aria-label="Поставить лайк" aria-pressed="false">♥</button>
+            {% endif %}
+        </form>
+        <span class="like-count">Лайков: {{ post.likes.count }}</span>
+    </div>
+    {% else %}
+    <div class="like-row">
+        <span class="like-count">Лайков: {{ post.likes.count }}</span>
+    </div>
+    {% endif %}
     {% if request.user == post.author %}
     <form method="post" action="{% url 'posts:delete_post' post.pk %}" onsubmit="return confirmDelete();">
         {% csrf_token %}

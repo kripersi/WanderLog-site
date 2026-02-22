@@ -5,7 +5,7 @@
 <h2>Профиль пользователя</h2>
 
 {% if is_owner %}
-<form method="post" enctype="multipart/form-data" class="profile-form">
+<form method="post" enctype="multipart/form-data" class="profile-form" id="profileForm">
     {% csrf_token %}
     {% endif %}
 
@@ -41,7 +41,19 @@
     </div>
 
     {% if is_owner %}
-    <button type="submit" class="save-btn">Сохранить</button>
+    <div class="profile-actions">
+        <button type="submit"
+                class="profile-btn"
+                id="saveProfileBtn"
+                disabled>
+            Сохранить
+        </button>
+
+        <a href="{% url 'users:likes' %}"
+           class="profile-btn">
+            Лайки
+        </a>
+    </div>
 </form>
 {% endif %}
 
@@ -90,6 +102,55 @@
 </script>
 {% block scripts %}
 <script src="{% static 'posts/js/photo_preview.js' %}"></script>
+<script>
+    (function () {
+        const form = document.getElementById("profileForm");
+        const saveBtn = document.getElementById("saveProfileBtn");
+        if (!form || !saveBtn) {
+            return;
+        }
+
+        const controls = form.querySelectorAll("input, textarea");
+        const initial = {};
+        controls.forEach((el) => {
+            if (el.type === "file") {
+                initial[el.name] = "";
+            } else {
+                initial[el.name] = el.value;
+            }
+        });
+
+        function hasChanges() {
+            let changed = false;
+            controls.forEach((el) => {
+                if (changed) {
+                    return;
+                }
+                if (el.type === "file") {
+                    if (el.files && el.files.length > 0) {
+                        changed = true;
+                    }
+                } else if (el.value !== initial[el.name]) {
+                    changed = true;
+                }
+            });
+            return changed;
+        }
+
+        function updateState() {
+            const changed = hasChanges();
+            saveBtn.disabled = !changed;
+            saveBtn.classList.toggle("is-disabled", !changed);
+        }
+
+        controls.forEach((el) => {
+            el.addEventListener("input", updateState);
+            el.addEventListener("change", updateState);
+        });
+
+        updateState();
+    })();
+</script>
 {% endblock %}
 
 {% endblock %}

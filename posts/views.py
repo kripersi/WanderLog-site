@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
-from .models import PostImage, Post
+from .models import PostImage, Post, PostLike
 from django.contrib import messages
 
 
@@ -33,7 +33,21 @@ def create_post(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, "posts/post_detail.html", {"post": post})
+    is_liked = False
+    if request.user.is_authenticated:
+        is_liked = PostLike.objects.filter(user=request.user, post=post).exists()
+    return render(request, "posts/post_detail.html", {"post": post, "is_liked": is_liked})
+
+
+@login_required
+def toggle_like(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+
+    like, created = PostLike.objects.get_or_create(user=request.user, post=post)
+    if not created:
+        like.delete()
+
+    return redirect("posts:post_detail", pk=pk)
 
 
 @login_required
