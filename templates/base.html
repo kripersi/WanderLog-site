@@ -100,12 +100,17 @@
             <div class="topbar-search">
                 <form method="get" action="{% url 'core:home' %}" class="search-form">
                     <input type="text" name="q" placeholder="Поиск мест, стран..." value="{{ query|default:'' }}">
+                    {% if countries %}
+                    <div class="filter-select">
+                        <select name="country" onchange="this.form.submit()">
+                            <option value="">Все страны</option>
+                            {% for country in countries %}
+                            <option value="{{ country }}" {% if country == selected_country %}selected{% endif %}>{{ country }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
                 </form>
-                <div class="filter-select">
-                    <select>
-                        <option>Все страны</option>
-                    </select>
-                </div>
             </div>
         </header>
         {% endblock %}
