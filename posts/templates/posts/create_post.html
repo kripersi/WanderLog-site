@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block page_title %}Создать пост{% endblock %}
 
@@ -37,8 +38,13 @@
         <label for="id_images" class="file-btn">Загрузить фото</label>
         <input type="file" id="id_images" name="images" multiple required>
         <div class="file-hint">Можно выбрать до 5 файлов</div>
+        <div id="image-preview" class="image-preview"></div>
     </div>
 
     <button type="submit">Опубликовать</button>
 </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/post_image_preview.js' %}"></script>
 {% endblock %}
