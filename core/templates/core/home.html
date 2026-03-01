@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block page_title %}Исследовать{% endblock %}
@@ -7,57 +7,20 @@
 
 {% if query %}
     <div class="search-info">
-        <h2>Результаты поиска: "{{ query }}"</h2>
+        <h2>Поиск по результату: "{{ query }}"</h2>
     </div>
 {% endif %}
 
-<div class="feed">
+<div class="feed" id="feed" data-query="{{ query|default:'' }}" data-country="{{ selected_country|default:'' }}">
+    {% include "core/_post_items.html" with posts=posts query=query %}
+</div>
 
-    {% if posts %}
-        {% for post in posts %}
-            <div class="feed-item">
-
-                <div class="feed-image">
-                    {% if post.images.first %}
-                        <img src="{{ post.images.first.image.url }}">
-                    {% else %}
-                        <div class="no-image">Фото</div>
-                    {% endif %}
-                </div>
-
-                <div class="feed-content">
-
-                    <div class="feed-header">
-                        <h2>
-                            <a href="{% url 'posts:post_detail' post.pk %}">
-                                {{ post.title }}
-                            </a>
-                        </h2>
-
-                        <div class="meta">
-                            <span>{{ post.country }} — {{ post.place }}</span>
-                            <span>Автор: {{ post.author.username }}</span>
-                        </div>
-                    </div>
-
-                    <p class="feed-text">
-                        {{ post.description|truncatechars:120 }}
-                    </p>
-
-                </div>
-
-            </div>
-
-            <hr class="divider">
-        {% endfor %}
-    {% else %}
-        {% if query %}
-            <p>По вашему запросу ничего не найдено.</p>
-        {% else %}
-            <p>Постов пока нет.</p>
-        {% endif %}
-    {% endif %}
-
+<div id="feed-loader" class="feed-loader" data-next-page="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}" {% if not page_obj.has_next %}style="display:none"{% endif %}>
+    Загрузка...
 </div>
 
 {% endblock %}
+{% block scripts %}
+<script src="{% static 'js/infinite_feed.js' %}"></script>
+{% endblock %}
+

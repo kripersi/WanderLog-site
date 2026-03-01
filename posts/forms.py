@@ -10,6 +10,7 @@ COUNTRIES = [
     ("Australia", "Australia"),
     ("Austria", "Austria"),
     ("Brazil", "Brazil"),
+    ("Belarus", "Belarus"),
     ("Canada", "Canada"),
     ("China", "China"),
     ("France", "France"),

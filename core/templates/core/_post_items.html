@@ -1,0 +1,42 @@
+{% for post in posts %}
+    <div class="feed-item">
+
+        <div class="feed-image">
+            {% if post.images.first %}
+                <img src="{{ post.images.first.image.url }}">
+            {% else %}
+                <div class="no-image">Р¤РѕС‚Рѕ</div>
+            {% endif %}
+        </div>
+
+        <div class="feed-content">
+
+            <div class="feed-header">
+                <h2>
+                    <a href="{% url 'posts:post_detail' post.pk %}">
+                        {{ post.title }}
+                    </a>
+                </h2>
+
+                <div class="meta">
+                    <span>{{ post.country }} — {{ post.place }}</span>
+                    <span>Автор: {{ post.author.username }}</span>
+                </div>
+            </div>
+
+            <p class="feed-text">
+                {{ post.description|truncatechars:120 }}
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr class="divider">
+{% empty %}
+    {% if query %}
+        <p>По вашему запросу ничего не найдено.</p>
+    {% else %}
+        <p>Постов пока нет.</p>
+    {% endif %}
+{% endfor %}

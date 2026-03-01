@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --bg: #0b0c10;
     --bg-soft: #0f1117;
     --bg-card: #111520;
@@ -193,6 +193,17 @@ a {
     display: flex;
     flex-direction: column;
     gap: 22px;
+}
+
+.feed-loader {
+    margin: 16px auto 0;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-card-soft);
+    color: var(--text-muted);
+    font-size: 13px;
+    width: fit-content;
 }
 
 .feed-item {
@@ -392,7 +403,7 @@ a {
     right: 16px;
 }
 
-/* Модалка просмотра фото */
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 .modal {
     display: none;
     position: fixed;
